@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --paper:#ffffff; --tint:#f4f7fb; --ink:#0b1626; --muted:#556275; --line:rgba(11,22,38,.1);
-    --blue:#1d4ed8; --blue-soft:#e8efff; --gold:#b7791f; --gold-soft:#fdf3e1;
+    --yellow:#F9D23F; --navy:#283747; --char:#333333; --paper:#F9F9F9;
+    --ink:#1c232c; --ink-soft:#3c4654; --on-navy:#ffffff; --on-navy-soft:#c9d3df;
     --font:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
   }
@@ -19,54 +19,65 @@
   html{background:var(--paper)}
   body{margin:0; background:var(--paper); color:var(--ink); font:clamp(1rem,.97rem + .16vw,1.0625rem)/1.65 var(--font); -webkit-font-smoothing:antialiased}
   .wrap{max-width:64rem; margin:0 auto; padding-inline:clamp(16px,4vw,32px)}
-  a{color:var(--blue)}
-  a:focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:4px}
+  a:focus-visible{outline:2px solid var(--navy); outline-offset:3px; border-radius:4px}
 
-  nav.top{position:sticky; top:0; z-index:10; background:rgba(255,255,255,.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-  nav.top .wrap{display:flex; align-items:center; gap:clamp(12px,2.4vw,28px); height:60px; white-space:nowrap; overflow-x:auto}
-  nav.top .me{font-weight:700; color:var(--ink); text-decoration:none; margin-right:auto}
-  nav.top a:not(.me){color:var(--muted); text-decoration:none; font-size:.95rem}
-  nav.top a:not(.me):hover{color:var(--ink)}
+  nav.top{position:sticky; top:0; z-index:10; background:var(--char)}
+  nav.top .wrap{display:flex; align-items:center; gap:clamp(12px,2.4vw,28px); height:58px; white-space:nowrap; overflow-x:auto}
+  nav.top .me{font-weight:700; color:#fff; text-decoration:none; margin-right:auto}
+  nav.top a:not(.me){color:#d9d9d9; text-decoration:none; font-size:.95rem}
+  nav.top a:not(.me):hover{color:var(--yellow)}
 
-  header.hero{padding-block:clamp(3.5rem,3rem + 4vw,6rem) clamp(2.5rem,2rem + 3vw,4rem)}
+  section{padding-block:clamp(2.8rem,2.4rem + 3vw,4.8rem)}
+  .yellow{background:var(--yellow); color:var(--ink)}
+  .navy{background:var(--navy); color:var(--on-navy)}
+  h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem); letter-spacing:-.03em; margin:0 0 1.8rem; line-height:1.1}
+
   .hero .grid{display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,4vw,48px); align-items:center}
-  .hero img{width:clamp(120px,18vw,188px); aspect-ratio:1; object-fit:cover; border-radius:50%; border:1px solid var(--line); max-width:100%}
-  .eyebrow{font-size:.75rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--blue); margin:0 0 .8rem}
+  .hero img{width:clamp(130px,20vw,210px); aspect-ratio:1; object-fit:cover; border-radius:50%; border:4px solid rgba(40,55,71,.9); max-width:100%}
+  .eyebrow{font-size:.75rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--navy); margin:0 0 .7rem}
   h1{font-size:clamp(2.3rem,1.5rem + 3.4vw,4rem); line-height:1.02; letter-spacing:-.035em; margin:0; text-wrap:balance}
-  .lead{font-size:clamp(1.08rem,1.02rem + .4vw,1.25rem); color:var(--muted); margin:1rem 0 0; max-width:40rem}
+  .lead{font-size:clamp(1.05rem,1rem + .4vw,1.22rem); color:var(--ink-soft); margin:1rem 0 0; max-width:40rem}
+  .lead a{color:var(--navy); font-weight:600}
   .contact{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.4rem}
-  .pill{display:inline-block; text-decoration:none; font-weight:500; font-size:.95rem; border-radius:999px; padding:.5rem 1rem; border:1px solid rgba(29,78,216,.35); color:var(--blue)}
-  .pill.solid{background:var(--blue); color:#fff; border-color:var(--blue)}
+  .pill{display:inline-block; text-decoration:none; font-weight:600; font-size:.95rem; border-radius:999px; padding:.55rem 1.05rem; background:var(--navy); color:#fff}
+  .pill.ghost{background:transparent; color:var(--navy); border:1.5px solid var(--navy)}
   @media (max-width:560px){ .hero .grid{grid-template-columns:1fr} }
 
-  section{padding-block:clamp(2.8rem,2.4rem + 3vw,4.8rem); border-top:1px solid var(--line)}
-  section.tint{background:var(--tint)}
-  h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem); letter-spacing:-.03em; margin:0 0 1.6rem; line-height:1.1}
-
-  .work{display:flex; flex-direction:column; gap:2rem}
+  .list{display:flex; flex-direction:column; gap:2.2rem}
   .item{display:grid; grid-template-columns:11rem 1fr; gap:.4rem 2rem}
-  .item .when{font:500 .85rem/1.5 var(--mono); color:var(--muted); padding-top:.25rem}
-  .item h3{margin:0; font-size:1.2rem; letter-spacing:-.015em}
-  .item h3 a{color:var(--ink); text-decoration:none; border-bottom:1.5px solid rgba(29,78,216,.35)}
-  .item h3 a:hover{border-bottom-color:var(--blue)}
-  .item .role{color:var(--blue); font-weight:500; font-size:.95rem; margin:.1rem 0 .4rem}
-  .item p{margin:0; color:#2a3648; max-width:44rem}
-  .item .more{margin-top:.5rem; font-size:.95rem}
-  .item .more a{margin-right:1rem}
-  .badge{display:inline-block; font:600 .72rem/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:.35rem .6rem; border-radius:999px; vertical-align:middle; margin-left:.5rem}
-  .badge.win{background:var(--gold-soft); color:var(--gold)}
-  .badge.built{background:var(--blue-soft); color:var(--blue)}
+  .item .when{font:500 .85rem/1.5 var(--mono); padding-top:.28rem; opacity:.8}
+  .item h3{margin:0; font-size:1.22rem; letter-spacing:-.015em}
+  .item h3 a{color:inherit; text-decoration:none; border-bottom:2px solid currentColor; border-bottom-color:rgba(249,210,63,.7)}
+  .yellow .item h3 a{border-bottom-color:rgba(40,55,71,.45)}
+  .item .role{font-weight:600; font-size:.95rem; margin:.15rem 0 .45rem; color:var(--yellow)}
+  .yellow .item .role{color:var(--navy)}
+  .item p{margin:0; max-width:44rem}
+  .navy .item p{color:var(--on-navy-soft)}
+  .yellow .item p{color:var(--ink-soft)}
+  .more{margin-top:.6rem; display:flex; gap:1.2rem; flex-wrap:wrap; font-size:.95rem; font-weight:600}
+  .navy .more a{color:var(--yellow)}
+  .yellow .more a{color:var(--navy)}
+  .badge{display:inline-block; font:600 .72rem/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:.36rem .62rem; border-radius:999px; vertical-align:middle; margin-left:.55rem}
+  .badge.win{background:var(--navy); color:var(--yellow)}
+  .badge.built{background:rgba(40,55,71,.12); color:var(--navy)}
+  .videos{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:1rem; max-width:44rem}
+  .videos figure{margin:0}
+  .videos .frame{position:relative; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#000}
+  .videos iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  .videos figcaption{font-size:.85rem; margin-top:.4rem; color:var(--on-navy-soft)}
   figure.research{margin:.9rem 0 0; display:flex; gap:12px; flex-wrap:wrap}
-  figure.research img{width:180px; max-width:100%; border-radius:12px; border:1px solid var(--line)}
-  figure.research figcaption{flex-basis:100%; font-size:.85rem; color:var(--muted)}
+  figure.research img{width:180px; max-width:100%; border-radius:12px; background:#fff}
+  figure.research figcaption{flex-basis:100%; font-size:.85rem; color:var(--on-navy-soft)}
   @media (max-width:680px){ .item{grid-template-columns:1fr} }
 
   .edu{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem}
-  .edu div{border:1px solid var(--line); border-radius:16px; padding:1.1rem 1.2rem; background:#fff}
+  .edu div{background:rgba(255,255,255,.55); border-radius:16px; padding:1.1rem 1.2rem}
   .edu b{display:block}
-  .edu span{color:var(--muted)}
+  .edu span{color:var(--ink-soft)}
 
-  footer{border-top:1px solid var(--line); padding-block:2rem 3rem; color:var(--muted); font-size:.9rem}
+  #contact .row{display:flex; flex-wrap:wrap; gap:.8rem}
+  #contact .pill{background:var(--yellow); color:var(--navy)}
+  #contact .pill.ghost{background:transparent; color:#fff; border-color:#fff}
 </style>
 </head>
 <body>
@@ -74,15 +85,16 @@
 <nav class="top" aria-label="Main">
   <div class="wrap">
     <a class="me" href="#">Armin Foroughi</a>
-    <a href="#work">Work</a>
+    <a href="#projects">Projects</a>
     <a href="#hackathons">Hackathons</a>
     <a href="#research">Research</a>
     <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
   </div>
 </nav>
 
 <main>
-  <header class="hero">
+  <section class="yellow hero">
     <div class="wrap grid">
       <img src="me.JPG" alt="Armin Foroughi">
       <div>
@@ -90,18 +102,18 @@
         <h1>Armin Foroughi</h1>
         <p class="lead">Co-founder of <a href="https://kinesislabs.tech/">Kinesis Labs</a>. I build robots that do lab work, from the electronics up: computer vision and robot learning, trained on GPU clusters, with a biochemistry background and real wet-lab time, so the constraints need no translation.</p>
         <div class="contact">
-          <a class="pill solid" href="mailto:arforoug@gmail.com">arforoug@gmail.com</a>
-          <a class="pill" href="https://github.com/arminforoughi">GitHub</a>
-          <a class="pill" href="https://www.linkedin.com/in/arminforoughi/">LinkedIn</a>
+          <a class="pill" href="#projects">See projects</a>
+          <a class="pill ghost" href="https://github.com/arminforoughi">GitHub</a>
+          <a class="pill ghost" href="https://www.linkedin.com/in/arminforoughi/">LinkedIn</a>
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <section id="work">
+  <section class="navy" id="projects">
     <div class="wrap">
-      <h2>Work</h2>
-      <div class="work">
+      <h2>Projects</h2>
+      <div class="list">
         <div class="item">
           <span class="when">Co-founder</span>
           <div>
@@ -111,10 +123,20 @@
           </div>
         </div>
         <div class="item">
-          <span class="when">Project</span>
+          <span class="when">Lab automation</span>
           <div>
             <h3><a href="https://biorobotix.tech/">BioRobotix</a></h3>
-            <p>Accelerating research through automation.</p>
+            <p>Accelerating research through automation: robot arms that run lab assays end to end.</p>
+            <div class="videos">
+              <figure>
+                <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/-v3xOnydsjQ" title="BioRobotix plate reader automation demo" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                <figcaption>Plate reader automation</figcaption>
+              </figure>
+              <figure>
+                <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/81W2zwvbYiM" title="BioRobotix test tube water bath cycling demo" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                <figcaption>Test tube water bath cycling</figcaption>
+              </figure>
+            </div>
           </div>
         </div>
         <div class="item">
@@ -129,10 +151,10 @@
     </div>
   </section>
 
-  <section id="hackathons" class="tint">
+  <section class="yellow" id="hackathons">
     <div class="wrap">
       <h2>Hackathons</h2>
-      <div class="work">
+      <div class="list">
         <div class="item">
           <span class="when">Google I/O Hackathon</span>
           <div>
@@ -141,10 +163,17 @@
           </div>
         </div>
         <div class="item">
-          <span class="when">AI Engineer World's Fair 2026</span>
+          <span class="when">AGI House × Nebius</span>
           <div>
-            <h3><a href="https://cerebralvalley.ai/e/aiewf-hackathon-2026/hackathon/gallery/68">RAX</a><span class="badge built">Built</span></h3>
-            <p>A real-time, low-latency robotic agent framework, driven by voice through Gemini Flash Audio and LiveKit Agents.</p>
+            <h3><a href="https://github.com/arminforoughi/nebius_k1">RAX on the Booster K1</a><span class="badge built">Built</span></h3>
+            <p>A voice-controlled humanoid: talk to the K1 and it walks, follows people, tracks objects, dances and waves. Gemini Live for voice, YOLOv8 for detection, stereo depth and face recognition on the robot.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">AI Engineer World's Fair 2025</span>
+          <div>
+            <h3>Survival of the features<span class="badge built">Presented</span></h3>
+            <p>A/B testing, presented at the AI Engineer World's Fair.</p>
           </div>
         </div>
         <div class="item">
@@ -165,10 +194,10 @@
     </div>
   </section>
 
-  <section id="research">
+  <section class="navy" id="research">
     <div class="wrap">
       <h2>Research</h2>
-      <div class="work">
+      <div class="list">
         <div class="item">
           <span class="when">Cryo-EM · ML</span>
           <div>
@@ -192,7 +221,7 @@
     </div>
   </section>
 
-  <section id="education" class="tint">
+  <section class="yellow" id="education">
     <div class="wrap">
       <h2>Education</h2>
       <div class="edu">
@@ -201,10 +230,17 @@
       </div>
     </div>
   </section>
-</main>
 
-<footer>
-  <div class="wrap">Armin Foroughi · <a href="https://kinesislabs.tech/">Kinesis Labs</a> · <a href="https://biorobotix.tech/">BioRobotix</a> · <a href="https://arminforoughi.github.io/RAX/">RAX</a></div>
-</footer>
+  <section class="navy" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <div class="row">
+        <a class="pill" href="mailto:arforoug@gmail.com">arforoug@gmail.com</a>
+        <a class="pill ghost" href="https://github.com/arminforoughi">GitHub</a>
+        <a class="pill ghost" href="https://www.linkedin.com/in/arminforoughi/">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
 </body>
 </html>
