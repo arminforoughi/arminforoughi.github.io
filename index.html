@@ -38,6 +38,8 @@
   h1{font-size:clamp(2.3rem,1.5rem + 3.4vw,4rem); line-height:1.02; letter-spacing:-.035em; margin:0; text-wrap:balance}
   .lead{font-size:clamp(1.05rem,1rem + .4vw,1.22rem); color:var(--ink-soft); margin:1rem 0 0; max-width:40rem}
   .lead a{color:var(--navy); font-weight:600}
+  .thumbs{display:flex; gap:10px; flex-wrap:wrap; margin-top:1.2rem}
+  .thumbs img{width:120px; height:120px; object-fit:cover; border-radius:10px; border:2px solid rgba(40,55,71,.85); max-width:30%}
   .contact{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.4rem}
   .pill{display:inline-block; text-decoration:none; font-weight:600; font-size:.95rem; border-radius:999px; padding:.55rem 1.05rem; background:var(--navy); color:#fff}
   .pill.ghost{background:transparent; color:var(--navy); border:1.5px solid var(--navy)}
@@ -104,6 +106,11 @@
         <p class="eyebrow">Robotics · Electronics · Machine learning</p>
         <h1>Armin Foroughi</h1>
         <p class="lead">Co-founder of <a href="https://kinesislabs.tech/">Kinesis Labs</a>. I build robots that do lab work, from the electronics up: computer vision and robot learning, trained on GPU clusters, with a biochemistry background and real wet-lab time, so the constraints need no translation.</p>
+        <div class="thumbs">
+          <img src="dalle1.png" alt="" loading="lazy">
+          <img src="sanFrancisco.png" alt="San Francisco" loading="lazy">
+          <img src="DALL1.png" alt="" loading="lazy">
+        </div>
         <div class="contact">
           <a class="pill" href="#projects">See projects</a>
           <a class="pill ghost" href="https://github.com/arminforoughi">GitHub</a>
