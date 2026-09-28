@@ -60,10 +60,10 @@
   .badge{display:inline-block; font:600 .72rem/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:.36rem .62rem; border-radius:999px; vertical-align:middle; margin-left:.55rem}
   .badge.win{background:var(--navy); color:var(--yellow)}
   .badge.built{background:rgba(40,55,71,.12); color:var(--navy)}
-  .videos{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:1rem; max-width:44rem}
+  .videos{display:grid; grid-template-columns:1fr; gap:14px; margin-top:1rem; max-width:40rem}
   .videos figure{margin:0}
   .videos .frame{position:relative; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#000}
-  .videos iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  .videos iframe,.videos video{position:absolute; inset:0; width:100%; height:100%; border:0; object-fit:cover}
   .videos figcaption{font-size:.85rem; margin-top:.4rem; color:var(--on-navy-soft)}
   figure.research{margin:.9rem 0 0; display:flex; gap:12px; flex-wrap:wrap}
   figure.research img{width:180px; max-width:100%; border-radius:12px; background:#fff}
@@ -129,12 +129,8 @@
             <p>Accelerating research through automation: robot arms that run lab assays end to end.</p>
             <div class="videos">
               <figure>
-                <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/-v3xOnydsjQ" title="BioRobotix plate reader automation demo" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-                <figcaption>Plate reader automation</figcaption>
-              </figure>
-              <figure>
-                <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/81W2zwvbYiM" title="BioRobotix test tube water bath cycling demo" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-                <figcaption>Test tube water bath cycling</figcaption>
+                <div class="frame"><video src="media/biorobotix-to_fridge_2x.mp4" poster="media/biorobotix-to_fridge_2x.jpg" autoplay loop muted playsinline controls preload="metadata"></video></div>
+                <figcaption>Liquid handling</figcaption>
               </figure>
             </div>
           </div>
@@ -165,30 +161,24 @@
         <div class="item">
           <span class="when">AGI House × Nebius</span>
           <div>
-            <h3><a href="https://github.com/arminforoughi/nebius_k1">RAX on the Booster K1</a><span class="badge built">Built</span></h3>
+            <h3><a href="https://github.com/arminforoughi/nebius_k1">RAX on the Booster K1</a><span class="badge win">Winner</span></h3>
             <p>A voice-controlled humanoid: talk to the K1 and it walks, follows people, tracks objects, dances and waves. Gemini Live for voice, YOLOv8 for detection, stereo depth and face recognition on the robot.</p>
           </div>
         </div>
         <div class="item">
           <span class="when">AI Engineer World's Fair 2025</span>
           <div>
-            <h3>Survival of the features<span class="badge built">Presented</span></h3>
+            <h3>Survival of the features<span class="badge win">Winner</span></h3>
             <p>A/B testing, presented at the AI Engineer World's Fair.</p>
           </div>
         </div>
         <div class="item">
           <span class="when">OpenEnv Hackathon SF</span>
           <div>
-            <h3><a href="https://cerebralvalley.ai/e/openenv-hackathon-sf/hackathon/gallery/83">Biosim</a><span class="badge built">Built</span></h3>
+            <h3><a href="https://cerebralvalley.ai/e/openenv-hackathon-sf/hackathon/gallery/83">Biosim</a><span class="badge win">Winner</span></h3>
             <p>An agentic backend that researches a wet-lab workflow, runs it, and learns from the experience.</p>
           </div>
         </div>
-        <div class="item">
-          <span class="when">GPT-6 Astra Hackathon SF</span>
-          <div>
-            <h3><a href="https://cerebralvalley.ai/e/openai-gpt-6-astra-sf/hackathon/gallery/63">Peptides that don't work</a><span class="badge built">Built</span></h3>
-            <p>Simulating peptide changes to find the compounds that will not fit the binding pockets.</p>
-          </div>
         </div>
       </div>
     </div>
