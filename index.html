@@ -1,223 +1,210 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <style>
-      body {
-        background-color: #F9F9F9;
-      }
-      .navbar {
-        background-color: #333;
-        color: white;
-      }
-      .navbar a {
-        color: white;
-      }
-      #about {
-        background-color: #F9D23F;
-        padding: 50px;
-      }
-      #projects {
-        background-color: #283747;
-        color: white;
-        padding: 50px;
-      }
-      #Education {
-        background-color: #F9D23F;
-        padding: 50px;
-      }
-      #contact {
-        background-color: #283747;
-        color: white;
-        padding: 50px;
-      }
-      .btn-primary {
-        background-color: #333;
-        border-color: #333;
-      }
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Armin Foroughi</title>
+<meta name="description" content="Armin Foroughi, co-founder of Kinesis Labs. Robotics, electronics and machine learning for lab automation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#ffffff; --tint:#f4f7fb; --ink:#0b1626; --muted:#556275; --line:rgba(11,22,38,.1);
+    --blue:#1d4ed8; --blue-soft:#e8efff; --gold:#b7791f; --gold-soft:#fdf3e1;
+    --font:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--paper)}
+  body{margin:0; background:var(--paper); color:var(--ink); font:clamp(1rem,.97rem + .16vw,1.0625rem)/1.65 var(--font); -webkit-font-smoothing:antialiased}
+  .wrap{max-width:64rem; margin:0 auto; padding-inline:clamp(16px,4vw,32px)}
+  a{color:var(--blue)}
+  a:focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:4px}
 
+  nav.top{position:sticky; top:0; z-index:10; background:rgba(255,255,255,.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  nav.top .wrap{display:flex; align-items:center; gap:clamp(12px,2.4vw,28px); height:60px; white-space:nowrap; overflow-x:auto}
+  nav.top .me{font-weight:700; color:var(--ink); text-decoration:none; margin-right:auto}
+  nav.top a:not(.me){color:var(--muted); text-decoration:none; font-size:.95rem}
+  nav.top a:not(.me):hover{color:var(--ink)}
 
-    </style>
-    <title>Armin Foroughi</title>
-  </head>
+  header.hero{padding-block:clamp(3.5rem,3rem + 4vw,6rem) clamp(2.5rem,2rem + 3vw,4rem)}
+  .hero .grid{display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,4vw,48px); align-items:center}
+  .hero img{width:clamp(120px,18vw,188px); aspect-ratio:1; object-fit:cover; border-radius:50%; border:1px solid var(--line); max-width:100%}
+  .eyebrow{font-size:.75rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--blue); margin:0 0 .8rem}
+  h1{font-size:clamp(2.3rem,1.5rem + 3.4vw,4rem); line-height:1.02; letter-spacing:-.035em; margin:0; text-wrap:balance}
+  .lead{font-size:clamp(1.08rem,1.02rem + .4vw,1.25rem); color:var(--muted); margin:1rem 0 0; max-width:40rem}
+  .contact{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.4rem}
+  .pill{display:inline-block; text-decoration:none; font-weight:500; font-size:.95rem; border-radius:999px; padding:.5rem 1rem; border:1px solid rgba(29,78,216,.35); color:var(--blue)}
+  .pill.solid{background:var(--blue); color:#fff; border-color:var(--blue)}
+  @media (max-width:560px){ .hero .grid{grid-template-columns:1fr} }
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-w" href="#">HI</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#projects">Projects</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#Education">Education</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <main>
+  section{padding-block:clamp(2.8rem,2.4rem + 3vw,4.8rem); border-top:1px solid var(--line)}
+  section.tint{background:var(--tint)}
+  h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem); letter-spacing:-.03em; margin:0 0 1.6rem; line-height:1.1}
 
+  .work{display:flex; flex-direction:column; gap:2rem}
+  .item{display:grid; grid-template-columns:11rem 1fr; gap:.4rem 2rem}
+  .item .when{font:500 .85rem/1.5 var(--mono); color:var(--muted); padding-top:.25rem}
+  .item h3{margin:0; font-size:1.2rem; letter-spacing:-.015em}
+  .item h3 a{color:var(--ink); text-decoration:none; border-bottom:1.5px solid rgba(29,78,216,.35)}
+  .item h3 a:hover{border-bottom-color:var(--blue)}
+  .item .role{color:var(--blue); font-weight:500; font-size:.95rem; margin:.1rem 0 .4rem}
+  .item p{margin:0; color:#2a3648; max-width:44rem}
+  .item .more{margin-top:.5rem; font-size:.95rem}
+  .item .more a{margin-right:1rem}
+  .badge{display:inline-block; font:600 .72rem/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:.35rem .6rem; border-radius:999px; vertical-align:middle; margin-left:.5rem}
+  .badge.win{background:var(--gold-soft); color:var(--gold)}
+  .badge.built{background:var(--blue-soft); color:var(--blue)}
+  figure.research{margin:.9rem 0 0; display:flex; gap:12px; flex-wrap:wrap}
+  figure.research img{width:180px; max-width:100%; border-radius:12px; border:1px solid var(--line)}
+  figure.research figcaption{flex-basis:100%; font-size:.85rem; color:var(--muted)}
+  @media (max-width:680px){ .item{grid-template-columns:1fr} }
 
-  <section id="about">
+  .edu{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem}
+  .edu div{border:1px solid var(--line); border-radius:16px; padding:1.1rem 1.2rem; background:#fff}
+  .edu b{display:block}
+  .edu span{color:var(--muted)}
 
+  footer{border-top:1px solid var(--line); padding-block:2rem 3rem; color:var(--muted); font-size:.9rem}
+</style>
+</head>
+<body>
 
-  <div class="row">
-
-
-    <div class="col-md-4">
-      <img src="me.JPG"
-      alt="Profile Picture" style="width: 400px; border-radius: 250px;">
-
-    </div>
-
-
-    <div class="col-md-5">
-      <h1>Armin Foroughi</h1>
-      <p>
-      <p>
-      <h5>Understanding and applying various analytical methods to optimize machine learning models</h5>
-      <p>Howdie!</p>
-      <p>I am an enthusiastic data scientist with background in biochemistry </p>
-      <p>Currently I'm working on a machine learning algorithm to enhance protein structure resolution in CryoEM by picking better protein particle data</p>
-
-
-      <img src="dalle1.png" alt="Profile Picture" style="width: 150px; border-radius: 10px;">
-      <img src="sanFrancisco.png" alt="Profile Picture" style="width: 150px; border-radius: 10px;">
-      <img src="DALL1.png" alt="Profile Picture" style="width: 150px; border-radius: 10px;">
-
-    </div>
-    <!-- <img src="sanFrancisco.jpeg" alt="Profile Picture" style="width: 450px; border-radius: 50px; background-position:center;"> -->
-
+<nav class="top" aria-label="Main">
+  <div class="wrap">
+    <a class="me" href="#">Armin Foroughi</a>
+    <a href="#work">Work</a>
+    <a href="#hackathons">Hackathons</a>
+    <a href="#research">Research</a>
+    <a href="#education">Education</a>
   </div>
+</nav>
 
-      </section>
+<main>
+  <header class="hero">
+    <div class="wrap grid">
+      <img src="me.JPG" alt="Armin Foroughi">
+      <div>
+        <p class="eyebrow">Robotics · Electronics · Machine learning</p>
+        <h1>Armin Foroughi</h1>
+        <p class="lead">Co-founder of <a href="https://kinesislabs.tech/">Kinesis Labs</a>. I build robots that do lab work, from the electronics up: computer vision and robot learning, trained on GPU clusters, with a biochemistry background and real wet-lab time, so the constraints need no translation.</p>
+        <div class="contact">
+          <a class="pill solid" href="mailto:arforoug@gmail.com">arforoug@gmail.com</a>
+          <a class="pill" href="https://github.com/arminforoughi">GitHub</a>
+          <a class="pill" href="https://www.linkedin.com/in/arminforoughi/">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </header>
 
-
-
-      <section id="projects">
-        <h2 class="text-center">Projects</h2>
-        <ul>
-          <!-- <li>Project 1: <a href="#">Link to project</a> -->
-            <li>Developing a machine learning model to quantify heterogeneity in CryoEM (Cryogenic Electron Microscopy) particles
-            <ul>
-            <li>generating and analyzing new data </li>
-            <li>building a pipeline for the metadata to construct new features by exploring different behaviors of each particle across different iterations of
-                CryoEm protein reconstruction </li>
-                <li>leveraging analytical tools and techniques to identify and resolve problems </li>
-            <li> building a complex grid search algorithm that builds thousands of models different by their model structure, input data and learning
-                mechanism, which then puts these models through a pipeline of tests to discover the most optimized parameters for the overall data</li>
-            <li> optimizing the use of linux Slurm job scheduler, by means of employing each GPU node of the server to train or test multiple
-                models in parallel</li>
-
-
-
-                <img src="training_apof_delta_all.gif" alt="this slowpoke moves"  title="V" width="250"/>
-
-                <img/>
-                <img/>
-                <img/>
-                <img src="20s.gif" alt="this slowpoke moves"  title="Visit Computer Hope" width="250" />
-<ul>
-  <li>Left Figure: The heterogeneity between the protein particles and other contaminants grows during each epoch of training </li>
-              <li> Right Figure:  20s Proteasom 3D structure</li>
-</ul>
-            </ul>
-            <!-- <video width="320" height="240" controls> <source src="training_apof_delta_all.mp4" type="video/mp4">observing the </video> -->
-
-          </li>
-          <li>To research unknown adverse of effects of drugs using the FAERS (FDA Adverse Event Reporting System) data base
-            <ul>
-            <li>fining any new and crucial side effects of drugs by writing filter functions on Linux to search for a unique scenario of drug usage </li>
-            </ul>
-
-          </li>
-
-          <li>Creating an Atlas of PSMA uptake for post-Proctectomy Patients
-            <ul>
-            <li>contouring lesions or lymphadenitis in PET, MRI or CT scans by using MIM platform, to analyze the most common places lesions can develop after a post -Proctectomy surgery</li>
-            </ul>
-              </li>
-
-            <li>Coding School Instructor
-              <ul>
-              <li>developing face recognition model on dojo drone to recognise people around the house</li>
-              </ul>
-
-            </li>
-
-        </ul>
-      </section>
-  <section id="Education">
-        <h2 class="text-center">Education</h2>
-        <ul>
-
-
-          <li>
-            <b>University of Virginia</b>
-          <ul>
-          <li>Master of Science in Data Science</li>
-          </ul>
-
-          <li>
-            <b>University of California, San Diego</b>
-          <ul>
-          <li>Bachelors of Science in Biochemistry with specialization in Data Science</li>
-          </ul>
-
-
-          </ul>
-
-
-          <!-- <li>Publication 1: <a href="#">Link to publication</a></li> -->
-
-  </ul>
+  <section id="work">
+    <div class="wrap">
+      <h2>Work</h2>
+      <div class="work">
+        <div class="item">
+          <span class="when">Co-founder</span>
+          <div>
+            <h3><a href="https://kinesislabs.tech/">Kinesis Labs</a></h3>
+            <p class="role">Builds the system</p>
+            <p>A benchtop station for clinical specimen receiving: it takes a sealed courier bag through unbagging, tube inspection, LIS accessioning, sorting and centrifugation, and hands finished racks to staff the same way at 3 a.m. as at 3 p.m.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">Project</span>
+          <div>
+            <h3><a href="https://biorobotix.tech/">BioRobotix</a></h3>
+            <p>Accelerating research through automation.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">Open source</span>
+          <div>
+            <h3><a href="https://arminforoughi.github.io/RAX/">RAX</a></h3>
+            <p>An open robot manipulation stack: one camera on the wrist, the robot's own kinematic model, and a visual servo that measures its gains instead of guessing them. Portable across arms, and every attempt becomes a self-labelled training example. Sorts lab tubes into racks with 80% pick-up success.</p>
+            <p class="more"><a href="https://arminforoughi.github.io/RAX/tube-sorting.html">Tube sorting demo</a><a href="https://github.com/arminforoughi/RAX">Code</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="contact">
-    <h2 class="text-center">Contact</h2>
-
-
-    <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    </head>
-
-
-      <h4 class="text-center">
-
-
-
-    	  <a href="https://github.com/arminforoughi" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-
-        &nbsp;
-        &nbsp;
-    	  <a href="http://linkedin.com/in/arminforoughi" target="_blank"><i class="fa fa-linkedin fa-2x" style="color: #0077B5"></i></a>
-        &nbsp;
-        &nbsp;
-
-    	  <a href="mailto:arforoug@gmail.com"><i class="fa fa-envelope fa-2x" style="color:orange"></i></a>
-
-</h4>
-
+  <section id="hackathons" class="tint">
+    <div class="wrap">
+      <h2>Hackathons</h2>
+      <div class="work">
+        <div class="item">
+          <span class="when">Google I/O Hackathon</span>
+          <div>
+            <h3><a href="https://cerebralvalley.ai/e/google-io-hackathon/hackathon/gallery/113">Sky Guardian</a><span class="badge win">2nd place</span></h3>
+            <p>Autonomous drones paired with a Gemini intelligence layer that enter unknown spaces in place of people. Built with Nicolas Dos Santos, Alex Battikha and Hari Natarajan.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">AI Engineer World's Fair 2026</span>
+          <div>
+            <h3><a href="https://cerebralvalley.ai/e/aiewf-hackathon-2026/hackathon/gallery/68">RAX</a><span class="badge built">Built</span></h3>
+            <p>A real-time, low-latency robotic agent framework, driven by voice through Gemini Flash Audio and LiveKit Agents.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">OpenEnv Hackathon SF</span>
+          <div>
+            <h3><a href="https://cerebralvalley.ai/e/openenv-hackathon-sf/hackathon/gallery/83">Biosim</a><span class="badge built">Built</span></h3>
+            <p>An agentic backend that researches a wet-lab workflow, runs it, and learns from the experience.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">GPT-6 Astra Hackathon SF</span>
+          <div>
+            <h3><a href="https://cerebralvalley.ai/e/openai-gpt-6-astra-sf/hackathon/gallery/63">Peptides that don't work</a><span class="badge built">Built</span></h3>
+            <p>Simulating peptide changes to find the compounds that will not fit the binding pockets.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <section id="research">
+    <div class="wrap">
+      <h2>Research</h2>
+      <div class="work">
+        <div class="item">
+          <span class="when">Cryo-EM · ML</span>
+          <div>
+            <h3>Particle heterogeneity in cryo-EM</h3>
+            <p>A machine-learning model that quantifies heterogeneity among cryo-EM particles, to pick better particles and sharpen protein structure resolution. It built new features from how each particle behaves across reconstruction iterations, and a grid search that trained thousands of model variants in parallel across a Slurm GPU cluster.</p>
+            <figure class="research">
+              <img src="training_apof_delta_all.gif" alt="Training: separation between protein particles and contaminants growing over epochs">
+              <img src="20s.gif" alt="3D structure of the 20S proteasome">
+              <figcaption>Left: the separation between protein particles and contaminants grows with each epoch. Right: the 20S proteasome.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="item">
+          <span class="when">Clinical data</span>
+          <div>
+            <h3>Drug safety and imaging</h3>
+            <p>Searched the FDA Adverse Event Reporting System for unreported side effects of drug combinations, and contoured lesions across PET, MRI and CT scans to build an atlas of PSMA uptake after prostatectomy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <section id="education" class="tint">
+    <div class="wrap">
+      <h2>Education</h2>
+      <div class="edu">
+        <div><b>University of Virginia</b><span>MS, Data Science</span></div>
+        <div><b>University of California, San Diego</b><span>BS, Biochemistry, specialization in Data Science</span></div>
+      </div>
+    </div>
+  </section>
+</main>
 
-
-  </main>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  </body>
+<footer>
+  <div class="wrap">Armin Foroughi · <a href="https://kinesislabs.tech/">Kinesis Labs</a> · <a href="https://biorobotix.tech/">BioRobotix</a> · <a href="https://arminforoughi.github.io/RAX/">RAX</a></div>
+</footer>
+</body>
 </html>
