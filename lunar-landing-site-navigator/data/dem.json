@@ -1,0 +1,11 @@
+{
+ "source": "LRO LOLA LDEM_80S_80M (PDS LRO-L-LOLA-4-GDR-V1.0), 2x2 block mean",
+ "size": 3800,
+ "scale": 160.0,
+ "offset": 1899.5,
+ "radius": 1737400.0,
+ "projection": "south polar stereographic (spherical, true at pole); lon=atan2(x,y)",
+ "frame": "Mean Earth/Polar Axis (DE421)",
+ "min": -7294,
+ "max": 7025
+}

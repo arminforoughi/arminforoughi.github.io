@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lunar Landing Site Navigator</title>
+<meta name="description" content="Compare lunar landing sites and landing dates: sunlight for power and direct-to-Earth communication windows, from real LOLA terrain and validated ephemerides.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23d9d7cf'/%3E%3Ccircle cx='21' cy='13' r='11' fill='%230a0a0b'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+  "astronomy-engine": "https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/esm/astronomy.js"
+} }
+</script>
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <div class="mark">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" class="m-disc"/><circle cx="21.5" cy="12.5" r="10.5" class="m-cut"/></svg>
+      <h1>Lunar Landing Site <em>Navigator</em></h1>
+    </div>
+
+    <div class="transport" role="group" aria-label="Scene time">
+      <button class="play" id="playBtn" title="Play or pause (Space)" aria-label="Play or pause"><svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg></button>
+      <label class="clock" title="Scene time (UTC): the moment shown in the 3D view and the sky view, and the landing time for the mission">
+        <input type="datetime-local" id="timeIn" step="60" aria-label="Scene time, UTC"><span>UTC</span>
+      </label>
+      <select id="speedSel" title="Playback speed" aria-label="Playback speed">
+        <option value="1">1 h / s</option>
+        <option value="6" selected>6 h / s</option>
+        <option value="24">1 day / s</option>
+        <option value="168">1 week / s</option>
+      </select>
+      <button class="btn quiet" id="nowBtn">Now</button>
+    </div>
+
+    <div class="window" role="group" aria-label="Analysis window">
+      <label class="field" title="First day of the analysis window (UTC)"><span>Window from</span><input type="date" id="startDate"></label>
+      <div class="seg" id="spanSeg" role="group" aria-label="Window length">
+        <button data-v="lunation">1 lunar day</button><button data-v="q">90 days</button><button data-v="y" class="on">1 year</button>
+      </div>
+    </div>
+
+    <div class="bar-end">
+      <button class="btn quiet" id="shareBtn" title="Copy a link to this exact scenario: sites, dates and settings">Copy link</button>
+      <button class="btn quiet" id="aboutBtn">Method</button>
+    </div>
+  </header>
+
+  <main class="work">
+    <!-- the Moon -->
+    <section class="stage">
+      <div class="view3d" id="viewport">
+        <div id="labels" class="labels"></div>
+        <div class="tools">
+          <div class="seg" id="shadingSeg" role="group" aria-label="Terrain shading">
+            <button data-v="real" class="on">Sunlight</button><button data-v="elevation">Elevation</button>
+          </div>
+          <button class="tool" id="gratBtn" aria-pressed="true" title="Latitude and longitude grid">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 3v18M3 12h18"/></svg>
+          </button>
+          <button class="tool" id="topBtn" title="Look straight down (map view): 0°E, the Earth-facing side, is up">
+            <svg viewBox="0 0 24 24"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3zM9 4v13M15 7v13"/></svg>
+          </button>
+          <div class="elev-key" id="elevKey" hidden><span>−6 km</span><i></i><span>+6.5 km</span></div>
+        </div>
+        <div class="notice" id="offMap" hidden></div>
+        <div class="notice pick" id="pickHint" hidden>Click the terrain to place a site · <kbd>Esc</kbd> cancels</div>
+        <div class="guide" id="guide" hidden>
+          <div class="guide-head"><span>Start here</span>
+            <button class="x" id="guideClose" aria-label="Dismiss"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <button class="guide-item" data-act="play"><b>1</b>Play a year of light and shadow at the pole</button>
+          <button class="guide-item" data-act="plan"><b>2</b>See the best landing date for a 14-day mission</button>
+          <button class="guide-item" data-act="apollo"><b>3</b>Compare the pole with Apollo 11's site</button>
+        </div>
+        <div class="toast" id="toast" hidden></div>
+        <div class="loader" id="loader">
+          <div class="loader-card">
+            <div class="loader-title" id="loaderTitle">Loading LOLA terrain</div>
+            <div class="meter"><i id="loaderBar"></i></div>
+            <div class="loader-sub" id="loaderSub">80°S to 90°S · 160 m per pixel · 14.4 M elevation samples</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sky">
+        <div class="sky-head">
+          <h2>Sky from <span id="panoSite">the site</span></h2>
+          <div class="legend">
+            <span><i class="sw terrain"></i>Horizon</span>
+            <span><i class="sw sunpath"></i>Sun's path</span>
+            <span><i class="sw earthpath"></i>Earth's path</span>
+            <span><i class="sw flat"></i>Level</span>
+          </div>
+        </div>
+        <div class="pano-wrap"><canvas id="pano"></canvas><div class="tip" id="panoTip" hidden></div></div>
+      </div>
+    </section>
+
+    <!-- the selected site -->
+    <aside class="inspector" id="panel">
+      <div class="ins-head">
+        <div class="ins-title"><i id="scDot"></i><input id="scName" aria-label="Site name" spellcheck="false"></div>
+        <div class="ins-meta"><span class="mono" id="scCoords"></span><span class="chip" id="scTag" hidden>off map</span></div>
+        <p class="ins-note" id="scNote"></p>
+        <div class="ins-actions">
+          <button class="btn" id="focusBtn">Fly to</button>
+          <button class="btn" id="csvBtn">Export CSV</button>
+          <button class="btn danger" id="delBtn">Remove</button>
+        </div>
+      </div>
+
+      <section class="blk">
+        <h3>At the scene time</h3>
+        <div class="now sun">
+          <div class="now-top"><span class="who"><i class="dot"></i>Sun</span><span class="state" id="nSunState">–</span></div>
+          <div class="now-next" id="nSunNext">–</div>
+          <div class="now-when mono" id="nSunWhen"></div>
+          <div class="meter"><i id="nSunBar"></i></div>
+          <dl><div><dt>Elevation</dt><dd id="nSunEl">–</dd></div><div><dt>Horizon there</dt><dd id="nSunHz">–</dd></div><div><dt>Azimuth</dt><dd id="nSunAz">–</dd></div></dl>
+        </div>
+        <div class="now earth">
+          <div class="now-top"><span class="who"><i class="dot"></i>Earth</span><span class="state" id="nEarthState">–</span></div>
+          <div class="now-next" id="nEarthNext">–</div>
+          <div class="now-when mono" id="nEarthWhen"></div>
+          <div class="meter"><i id="nEarthBar"></i></div>
+          <dl><div><dt>Elevation</dt><dd id="nEarthEl">–</dd></div><div><dt>Horizon there</dt><dd id="nEarthHz">–</dd></div><div><dt>Azimuth</dt><dd id="nEarthAz">–</dd></div></dl>
+        </div>
+      </section>
+
+      <section class="blk">
+        <h3>Over the window</h3>
+        <div class="figs">
+          <div class="fig sun"><span>Sunlight</span><b id="mIllum">–</b><small>average solar disc visible</small></div>
+          <div class="fig earth"><span>Earth in view</span><b id="mComm">–</b><small>direct-to-Earth link possible</small></div>
+          <div class="fig both"><span>Both</span><b id="mBoth">–</b><small>sunlight while Earth in view</small></div>
+          <div class="fig"><span>Longest night</span><b id="mDark">–</b><small>under half the disc visible</small></div>
+          <div class="fig"><span>Longest gap</span><b id="mGap">–</b><small>Earth below the horizon</small></div>
+          <div class="fig"><span>Elevation</span><b id="mElev">–</b><small id="mElevSub">vs 1737.4 km sphere</small></div>
+        </div>
+        <p class="fine" id="windowInfo"></p>
+      </section>
+
+      <section class="blk" id="scanBox">
+        <h3>A few hundred metres away</h3>
+        <p class="fine">At the pole, a short move can decide whether a site sees the Sun or the Earth. Scan the ground around this site to see how much the numbers change.</p>
+        <button class="btn" id="scanBtn">Scan 800 m around this site</button>
+        <div id="scanOut" hidden>
+          <div class="seg" id="scanSeg" role="group" aria-label="Value shown in the grid">
+            <button data-v="illum" class="on">Sunlight</button><button data-v="comm">Earth in view</button><button data-v="both">Both</button>
+          </div>
+          <div class="scan-grid" id="scanGrid"></div>
+          <p class="fine" id="scanCap"></p>
+        </div>
+      </section>
+
+      <section class="blk">
+        <h3>Assumptions <span>all sites</span></h3>
+        <label class="slider">
+          <span>Sensor or panel height above ground <b id="mastVal">2 m</b></span>
+          <input type="range" id="mast" min="0" max="50" step="1" value="2">
+        </label>
+        <label class="slider">
+          <span>Minimum Earth elevation above the horizon <b id="maskVal">0.0°</b></span>
+          <input type="range" id="mask" min="0" max="5" step="0.5" value="0">
+        </label>
+      </section>
+    </aside>
+
+    <!-- every site, on one time axis -->
+    <section class="deck" id="deck">
+      <div class="deck-bar">
+        <div class="add-wrap">
+          <button class="btn solid" id="addBtn" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add site</button>
+          <div class="pop" id="addPop" hidden>
+            <button class="pop-pick" id="pickBtn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg>Pick a point on the map</button>
+            <form class="coord-form" id="coordForm" autocomplete="off">
+              <input id="latIn" placeholder="Lat  89.4S" aria-label="Latitude in degrees: negative or S for south">
+              <input id="lonIn" placeholder="Lon  222.6" aria-label="Longitude in degrees: east-positive, or with E or W">
+              <button class="btn" type="submit">Add</button>
+            </form>
+            <p class="fine pop-hint">Anywhere on the Moon. South is negative or S; west is negative or W.</p>
+            <div class="form-err" id="coordErr" hidden></div>
+            <div class="pop-lib" id="libList"></div>
+          </div>
+        </div>
+
+        <div class="ctl"><span>Mission</span>
+          <div class="seg" id="missionSeg" role="group" aria-label="Surface mission length">
+            <button data-v="7">7</button><button data-v="14" class="on">14</button><button data-v="30">30</button>
+          </div>
+          <label class="num"><input type="number" id="missionIn" min="1" max="120" step="1" value="14" aria-label="Mission length in days"><span>days</span></label>
+        </div>
+        <div class="ctl"><span>Best date by</span>
+          <div class="seg" id="planKeySeg" role="group" aria-label="Score used to rank landing dates">
+            <button data-v="both" class="on">Sun + Earth</button><button data-v="sun">Sun</button><button data-v="earth">Earth</button>
+          </div>
+        </div>
+        <label class="check" title="Only landing times that are sunlit with Earth in view can be the best date"><input type="checkbox" id="touchdownChk" checked>Sunlit, Earth in view at touchdown</label>
+
+        <div class="deck-end">
+          <div class="ctl"><span>Numbers for</span>
+            <div class="seg" id="scopeSeg" role="group" aria-label="Period the numbers cover">
+              <button data-v="window" class="on">Whole window</button><button data-v="mission">This mission</button>
+            </div>
+          </div>
+          <div class="ctl"><span>Show</span>
+            <div class="seg" id="bandSeg" role="group" aria-label="What the time strips show">
+              <button data-v="bands" class="on">Sun &amp; Earth</button><button data-v="score">Landing score</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deck-scroll" id="deckScroll">
+        <div class="deck-head">
+          <div class="cols">
+            <span class="h-name">Site</span>
+            <span class="k-illum" title="Sunlight: average fraction of the solar disc above the horizon">Sun</span>
+            <span class="k-comm" title="Earth in view: a direct-to-Earth link is possible">Earth</span>
+            <span class="k-both" title="Sunlight received while Earth is in view">Both</span>
+            <span class="k-night" title="Longest continuous night (less than half the solar disc visible)">Night</span>
+            <span class="k-gap" title="Longest continuous period with Earth hidden">Gap</span>
+            <span class="k-best" title="Best landing time for the mission">Best landing</span>
+          </div>
+          <div class="axis"><canvas id="axis"></canvas></div>
+        </div>
+        <div class="deck-body">
+          <div class="rows" id="rows"></div>
+          <div class="strips"><canvas id="strips"></canvas><div class="tip" id="tlTip" hidden></div></div>
+        </div>
+      </div>
+      <div class="deck-foot" id="deckFoot"></div>
+    </section>
+  </main>
+</div>
+
+<dialog id="about">
+  <form method="dialog" class="about">
+    <header><h2>Method and data</h2><button class="x" value="close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="about-body">
+      <h3>Terrain</h3>
+      <p>NASA LRO <b>LOLA</b> gridded elevation model <span class="mono">LDEM_80S_80M</span> (PDS, Mean Earth/Polar Axis frame), averaged to 160 m per pixel and covering everything south of 80°S. The 3D model, the shadows and the horizon profiles all come from this grid.</p>
+      <h3>Horizon</h3>
+      <p>For each site, 1,440 rays are traced across the elevation model out to the edge of the map (up to about 430 km), on the true curved Moon. The highest terrain elevation angle is stored in 0.5° azimuth bins. The observer is at ground level plus the height you set.</p>
+      <h3>Sun and Earth</h3>
+      <p>Positions from <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> (VSOP87 / ELP), rotated into the Moon-fixed frame with the IAU/WGCCRE lunar rotation model, including parallax from the site. <b>Validated against JPL Horizons (DE441):</b> 2,800 Sun and Earth positions at four polar sites over 2026–27 agree to within <b>0.004°</b> in both azimuth and elevation.</p>
+      <h3>Definitions</h3>
+      <ul>
+        <li><b>Sunlight</b>: time-averaged fraction of the solar disc above the horizon (the relative power of a vertical, Sun-tracking panel).</li>
+        <li><b>Sunlit / night</b>: at least / less than half of the solar disc visible.</li>
+        <li><b>Earth in view</b>: Earth's centre above the horizon plus the minimum elevation you set. This is line of sight only, not a link budget.</li>
+        <li><b>Both</b>: sunlight counted only while Earth is in view, the share of time a site has power and a direct link at once.</li>
+      </ul>
+      <h3>Landing dates</h3>
+      <p>A mission of the chosen length is slid across the analysis window. For each landing time the tool averages sunlight, Earth visibility and both together over the mission. The marker on each site's row is the landing time with the highest score. With the touchdown rule on, only landing times that are sunlit with Earth in view are eligible. “This mission” shows the numbers for a mission that lands at the scene time.</p>
+      <h3>Sites elsewhere on the Moon</h3>
+      <p>The terrain model covers 80°S to the pole. Sites outside it, such as the Apollo sites, use the horizon of a smooth sphere, so local hills and crater walls are not included. They are here for comparison with the pole.</p>
+      <h3>Limits</h3>
+      <p>Features smaller than about 160 m (boulders, small craters, the lander itself) are not resolved, so short local shadows may be missed. Terrain north of 80°S is not included, which matters for sites near the edge of the map. Results are for mission planning study and education, not flight operations.</p>
+      <p class="fine">Built for the 2026 NASA Space Apps Challenge, “Lunar Landing Site Navigator”.</p>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
